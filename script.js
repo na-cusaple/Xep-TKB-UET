@@ -177,18 +177,10 @@ function loadSampleData() {
     console.log(`📚 Đã tải ${sampleSubjects.length} môn học mẫu`);
 }
 const timeSlots = [
-    { period: 1, time: '07:00 - 07:50' },
-    { period: 2, time: '07:55 - 08:45' },
-    { period: 3, time: '08:50 - 09:40' },
-    { period: 4, time: '09:45 - 10:35' },
-    { period: 5, time: '10:40 - 11:30' },
-    { period: 6, time: '11:35 - 12:25' },
-    { period: 7, time: '13:00 - 13:50' },
-    { period: 8, time: '13:55 - 14:45' },
-    { period: 9, time: '14:50 - 15:40' },
-    { period: 10, time: '15:45 - 16:35' },
-    { period: 11, time: '16:40 - 17:30' },
-    { period: 12, time: '17:35 - 18:25' }
+    { period: 1, time: '07:00 - 09:40' },
+    { period: 2, time: '09:45 - 12:25' },
+    { period: 3, time: '13:00 - 15:40' },
+    { period: 4, time: '15:45 - 18:25' }
 ];
 let selectedSubjects = [];
 let currentSchedule = {};
@@ -520,7 +512,7 @@ function createScheduleTable() {
         const row = document.createElement('tr');
         const timeCell = document.createElement('td');
         timeCell.className = 'time-slot';
-        timeCell.innerHTML = `<div>Tiết ${slot.period}</div><div style="font-size: 10px; font-weight: normal;">${slot.time}</div>`;
+        timeCell.innerHTML = `<div>Ca ${slot.period}</div><div style="font-size: 10px; font-weight: normal;">${slot.time}</div>`;
         row.appendChild(timeCell);
         // Create cells for days 2-7 (Thứ 2 to Thứ 7) plus day 1 for Sunday
         for (let day = 2; day <= 7; day++) {
