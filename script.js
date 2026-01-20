@@ -725,8 +725,19 @@ function checkScheduleConflicts() {
     });
 }
 function updateScheduleInfo() {
-    const totalCredits = selectedSubjects.reduce((sum, subject) => sum + subject.credits, 0);
-    const totalSubjects = selectedSubjects.length;
+    // Lấy danh sách môn học unique theo id (mã lớp học phần)
+    const uniqueSubjects = [];
+    const seenIds = new Set();
+    
+    selectedSubjects.forEach(subject => {
+        if (!seenIds.has(subject.id)) {
+            seenIds.add(subject.id);
+            uniqueSubjects.push(subject);
+        }
+    });
+    
+    const totalCredits = uniqueSubjects.reduce((sum, subject) => sum + subject.credits, 0);
+    const totalSubjects = uniqueSubjects.length;
     document.getElementById('totalCredits').textContent = totalCredits;
     document.getElementById('totalSubjects').textContent = totalSubjects;
 }
