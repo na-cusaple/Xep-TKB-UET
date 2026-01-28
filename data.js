@@ -25566,6 +25566,34 @@ const UET_SUBJECTS_DATA = [
     "giang_duong": "Tiết 9-10",
     "nhom": "CL",
     "ghi_chu": "Học 15 tuần"
+  },
+  {
+    "stt": "1827",
+    "ma_hoc_phan": "ELT3144",
+    "hoc_phan": "Xử lý tín hiệu số",
+    "so_tin_chi": 4,
+    "ma_lhp": "ELT3144 70",
+    "giang_vien": "TS Trần Thị Thúy Quỳnh",
+    "so_sv_du_kien": "60",
+    "thu": "4",
+    "tiet": "10-12",
+    "giang_duong": "103-GĐ4-B",
+    "nhom": "CL",
+    "ghi_chu": ""
+  },
+  {
+    "stt": "1828",
+    "ma_hoc_phan": "ELT3144",
+    "hoc_phan": "Xử lý tín hiệu số",
+    "so_tin_chi": 4,
+    "ma_lhp": "ELT3144 70",
+    "giang_vien": "TS Trần Thị Thúy Quỳnh",
+    "so_sv_du_kien": "60",
+    "thu": "5",
+    "tiet": "10-12",
+    "giang_duong": "211-GĐ3",
+    "nhom": "CL",
+    "ghi_chu": ""
   }
 ];
 
