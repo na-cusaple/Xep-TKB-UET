@@ -795,8 +795,8 @@ const UET_SUBJECTS_DATA = [
     "ma_lhp": "THL1057 5",
     "giang_vien": "Viện Khảo thí",
     "so_sv_du_kien": "65",
-    "thu": "",
-    "tiet": "",
+    "thu": "8",
+    "tiet": "4",
     "giang_duong": "ONL",
     "nhom": "CL",
     "ghi_chu": "Học 1 ca/10 tuần, thi đợt 1"
