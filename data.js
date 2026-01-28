@@ -792,7 +792,7 @@ const UET_SUBJECTS_DATA = [
     "ma_hoc_phan": "THL1057",
     "hoc_phan": "Nhà nước và Pháp luật đại cương",
     "so_tin_chi": 2,
-    "ma_lhp": "THL1057 1",
+    "ma_lhp": "THL1057 5",
     "giang_vien": "Viện Khảo thí",
     "so_sv_du_kien": "65",
     "thu": "",
