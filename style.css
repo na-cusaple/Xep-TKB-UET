@@ -10,7 +10,7 @@ body {
     color: #333;
 }
 .container {
-    max-width: 1400px;
+    max-width: 1800px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -38,7 +38,7 @@ header p {
     min-height: 70vh;
 }
 .sidebar {
-    flex: 0 0 350px;
+    flex: 0 0 300px;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     padding: 20px;
@@ -238,6 +238,7 @@ header p {
     /* allow class items to overflow so full cards and shadows are visible */
     overflow: visible;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    table-layout: fixed;
 }
 .schedule-table th,
 .schedule-table td {
@@ -246,6 +247,16 @@ header p {
     border: 1px solid #e0e0e0;
     position: relative;
     vertical-align: top;
+}
+
+/* Fix column widths: first column (Tiết) fixed, others evenly split */
+.schedule-table th:first-child,
+.schedule-table td:first-child {
+    width: 160px;
+}
+.schedule-table th:not(:first-child),
+.schedule-table td:not(:first-child) {
+    width: calc((100% - 160px) / 7);
 }
 .schedule-table th {
     background: #667eea;
@@ -263,14 +274,20 @@ header p {
     font-size: 12px;
 }
 .schedule-cell {
+    /* Make cells fill the table row height for even rows */
+    height: 100%;
     min-height: 130px;
-    height: auto;
     position: relative;
     background: #fafafa;
     transition: all 0.3s ease;
     cursor: pointer;
     padding: 8px;
     overflow: visible;
+}
+
+/* Enforce equal row heights (adjust as needed for number of periods) */
+.schedule-table tbody tr {
+    height: 160px;
 }
 .schedule-cell:hover {
     background: #e3f2fd;
@@ -291,20 +308,31 @@ header p {
     position: relative;
     display: block;
     margin-bottom: 6px;
-    overflow: visible;
+    overflow: hidden;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     cursor: move;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 .class-item .class-code {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 13px;
 }
 .class-item .class-name {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.98;
     white-space: normal;
     overflow-wrap: anywhere;
     line-height: 1.15;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .class-item .class-room {
     font-size: 8px;
