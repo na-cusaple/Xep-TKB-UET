@@ -818,6 +818,10 @@ function setupEventListeners() {
     document.getElementById('clearSchedule').addEventListener('click', clearSchedule);
     document.getElementById('saveSchedule').addEventListener('click', saveSchedule);
     document.getElementById('loadSchedule').addEventListener('click', loadSchedule);
+    const saveTop = document.getElementById('saveScheduleTop');
+    if (saveTop) saveTop.addEventListener('click', saveSchedule);
+    const exportTop = document.getElementById('exportScheduleTop');
+    if (exportTop) exportTop.addEventListener('click', exportSchedule);
 }
 function exportScheduleToExcel() {
     if (selectedSubjects.length === 0) {
@@ -909,11 +913,20 @@ function clearSchedule() {
     }
 }
 function saveSchedule() {
-    const scheduleData = {
-        // Save identifier + class_number so variants with same id are preserved
-        subjects: selectedSubjects.map(s => ({ id: s.id, class_number: s.class_number || '', code: s.code })),
-        timestamp: new Date().toISOString()
-    };
+    // Save full subject snapshots (minimal safe fields) to preserve exact order and sessions
+    const snapshot = selectedSubjects.map(s => ({
+        id: s.id,
+        code: s.code,
+        name: s.name,
+        credits: s.credits,
+        type: s.type,
+        class_number: s.class_number || '',
+        instructor: s.instructor || '',
+        sessions: s.sessions || [],
+        note_1: s.note_1 || '',
+        note_2: s.note_2 || ''
+    }));
+    const scheduleData = { subjects: snapshot, timestamp: new Date().toISOString() };
     localStorage.setItem('uet_schedule', JSON.stringify(scheduleData));
     showToast('Đã lưu thời khóa biểu', 'success');
 }
@@ -962,19 +975,31 @@ function loadScheduleFromData(data) {
                 const subject = sampleSubjects.find(s => s.id === entry);
                 if (subject) selectedSubjects.push(subject);
             } else if (entry && typeof entry === 'object') {
-                if (entry.id && ('class_number' in entry)) {
-                    // find exact variant by id + class_number
-                    let subject = sampleSubjects.find(s => s.id === entry.id && (s.class_number || '') === (entry.class_number || ''));
-                    if (!subject) {
-                        // fallback to any with same id
-                        subject = sampleSubjects.find(s => s.id === entry.id);
-                    }
-                    if (subject) selectedSubjects.push(subject);
-                } else if (entry.id && entry.code && entry.name) {
-                    // assume it's a full subject object - try to match by id+class_number first
+                if (entry.id && Array.isArray(entry.sessions)) {
+                    // Try to find exact existing subject (by id + class_number)
                     let subject = sampleSubjects.find(s => s.id === entry.id && (s.class_number || '') === (entry.class_number || ''));
                     if (!subject) subject = sampleSubjects.find(s => s.id === entry.id) || sampleSubjects.find(s => s.code === entry.code);
-                    if (subject) selectedSubjects.push(subject);
+                    if (subject) {
+                        // Use the canonical subject object from sampleSubjects but ensure sessions reflect saved snapshot
+                        subject = Object.assign({}, subject);
+                        subject.sessions = entry.sessions;
+                        subject.class_number = entry.class_number || subject.class_number;
+                        selectedSubjects.push(subject);
+                    } else {
+                        // Not found in sampleSubjects, recreate from snapshot and also add to sampleSubjects for future matching
+                        const recreated = {
+                            id: entry.id,
+                            code: entry.code || entry.id,
+                            name: entry.name || entry.code || entry.id,
+                            credits: entry.credits || entry.tc || 3,
+                            type: entry.type || determineSubjectType(entry.code || entry.id, entry.name || entry.code),
+                            sessions: entry.sessions || [],
+                            instructor: entry.instructor || entry.giang_vien || entry.instructor || '',
+                            class_number: entry.class_number || ''
+                        };
+                        sampleSubjects.push(recreated);
+                        selectedSubjects.push(recreated);
+                    }
                 }
             }
         });

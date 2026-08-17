@@ -235,7 +235,8 @@ header p {
     border-collapse: collapse;
     background: white;
     border-radius: 10px;
-    overflow: hidden;
+    /* allow class items to overflow so full cards and shadows are visible */
+    overflow: visible;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 .schedule-table th,
