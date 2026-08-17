@@ -244,6 +244,7 @@ header p {
     text-align: center;
     border: 1px solid #e0e0e0;
     position: relative;
+    vertical-align: top;
 }
 .schedule-table th {
     background: #667eea;
@@ -261,12 +262,14 @@ header p {
     font-size: 12px;
 }
 .schedule-cell {
-    min-height: 80px;
+    min-height: 130px;
     height: auto;
     position: relative;
     background: #fafafa;
     transition: all 0.3s ease;
     cursor: pointer;
+    padding: 8px;
+    overflow: visible;
 }
 .schedule-cell:hover {
     background: #e3f2fd;
@@ -280,32 +283,27 @@ header p {
 .class-item {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 8px;
-    border-radius: 5px;
-    font-size: 11px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
     text-align: left;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    overflow: hidden;
+    position: relative;
+    display: block;
+    margin-bottom: 6px;
+    overflow: visible;
     cursor: move;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 .class-item .class-code {
     font-weight: bold;
-    font-size: 10px;
+    font-size: 12px;
 }
 .class-item .class-name {
-    font-size: 12px;
-    opacity: 0.95;
+    font-size: 14px;
+    opacity: 0.98;
     white-space: normal;
     overflow-wrap: anywhere;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    line-height: 1.15;
 }
 .class-item .class-room {
     font-size: 8px;

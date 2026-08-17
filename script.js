@@ -910,7 +910,8 @@ function clearSchedule() {
 }
 function saveSchedule() {
     const scheduleData = {
-        subjects: selectedSubjects.map(s => s.id),
+        // Save identifier + class_number so variants with same id are preserved
+        subjects: selectedSubjects.map(s => ({ id: s.id, class_number: s.class_number || '', code: s.code })),
         timestamp: new Date().toISOString()
     };
     localStorage.setItem('uet_schedule', JSON.stringify(scheduleData));
@@ -952,15 +953,36 @@ function loadSavedSchedule() {
 function loadScheduleFromData(data) {
     if (data.subjects && Array.isArray(data.subjects)) {
         selectedSubjects = [];
-        data.subjects.forEach(subjectId => {
-            const subject = sampleSubjects.find(s => s.id === subjectId);
-            if (subject) {
-                selectedSubjects.push(subject);
+        data.subjects.forEach(entry => {
+            // Support three formats for compatibility:
+            // 1) string id (legacy)
+            // 2) object { id, class_number }
+            // 3) full subject object exported via exportSchedule
+            if (typeof entry === 'string') {
+                const subject = sampleSubjects.find(s => s.id === entry);
+                if (subject) selectedSubjects.push(subject);
+            } else if (entry && typeof entry === 'object') {
+                if (entry.id && ('class_number' in entry)) {
+                    // find exact variant by id + class_number
+                    let subject = sampleSubjects.find(s => s.id === entry.id && (s.class_number || '') === (entry.class_number || ''));
+                    if (!subject) {
+                        // fallback to any with same id
+                        subject = sampleSubjects.find(s => s.id === entry.id);
+                    }
+                    if (subject) selectedSubjects.push(subject);
+                } else if (entry.id && entry.code && entry.name) {
+                    // assume it's a full subject object - try to match by id+class_number first
+                    let subject = sampleSubjects.find(s => s.id === entry.id && (s.class_number || '') === (entry.class_number || ''));
+                    if (!subject) subject = sampleSubjects.find(s => s.id === entry.id) || sampleSubjects.find(s => s.code === entry.code);
+                    if (subject) selectedSubjects.push(subject);
+                }
             }
         });
         renderSubjectsList();
         renderSchedule();
         updateScheduleInfo();
+        // ensure persisted format is the newer object format
+        try { saveSchedule(); } catch (e) { console.error('Auto-save failed after load:', e); }
     }
 }
 function showToast(message, type = 'success') {
