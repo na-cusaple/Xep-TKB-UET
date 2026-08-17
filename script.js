@@ -12,6 +12,8 @@ function loadSubjectsFromData() {
                 const sessions = createSessionsFromSimpleData(item);
                 const subjectType = determineSubjectType(item.ma_hoc_phan, item.hoc_phan);
                 return {
+                    // preserve original lớp/họp phần mã (LHP)
+                    lhp: item.ma_lhp,
                     id: item.ma_lhp,
                     code: item.ma_hoc_phan,
                     name: item.hoc_phan,
@@ -68,8 +70,9 @@ async function loadSubjectsFromJSON() {
         const response = await fetch('TKB HKI 2025-2026_fixed.json');
         const data = await response.json();
         sampleSubjects = data.map(item => ({
+            lhp: item.ma_lhp || item.id || '',
             id: item.id || item.ma_lhp,
-            code: item.code || item.ma_lhp,
+            code: item.code || item.ma_hoc_phan || item.ma_lhp,
             name: item.name || item.mon,
             credits: parseInt(item.credits) || parseInt(item.tc) || 3,
             type: item.type || determineSubjectType(item.code || item.ma_lhp, item.name || item.mon),
@@ -288,7 +291,7 @@ function createSubjectElement(subject) {
     div.innerHTML = `
         <div class="subject-code">${subject.code}</div>
         <div class="subject-lhp" style="font-size: 11px; color: #666; margin-top: 2px;">
-            LHP: ${subject.id}
+            LHP: ${subject.lhp || subject.id}
             ${subject.class_number ? `<span style="background: #e3f2fd; padding: 1px 4px; border-radius: 3px; margin-left: 5px;">${subject.class_number}</span>` : ''}
         </div>
         <div class="subject-name">${subject.name}</div>
@@ -575,6 +578,7 @@ function createClassItem(subject, session) {
     div.className = 'class-item';
     div.dataset.subjectId = subject.id;
     div.innerHTML = `
+        <div class="class-lhp">${subject.lhp || subject.id}${subject.class_number ? ' • ' + subject.class_number : ''}</div>
         <div class="class-code">${subject.code}</div>
         <div class="class-name">${subject.name}</div>
         <div class="class-room">${session.room}</div>
@@ -919,6 +923,7 @@ function saveSchedule() {
     // Save full subject snapshots (minimal safe fields) to preserve exact order and sessions
     const snapshot = selectedSubjects.map(s => ({
         id: s.id,
+        lhp: s.lhp || s.id,
         code: s.code,
         name: s.name,
         credits: s.credits,
@@ -991,6 +996,7 @@ function loadScheduleFromData(data) {
                     } else {
                         // Not found in sampleSubjects, recreate from snapshot and also add to sampleSubjects for future matching
                         const recreated = {
+                            lhp: entry.lhp || entry.id,
                             id: entry.id,
                             code: entry.code || entry.id,
                             name: entry.name || entry.code || entry.id,

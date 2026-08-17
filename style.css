@@ -329,6 +329,12 @@ header p {
     font-weight: bold;
     font-size: 13px;
 }
+.class-item .class-lhp {
+    font-weight: 800;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.95);
+}
 .class-item .class-name {
     font-size: 13px;
     opacity: 0.98;
