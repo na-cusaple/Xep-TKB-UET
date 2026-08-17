@@ -289,10 +289,8 @@ function createSubjectElement(subject) {
         div.title = '⚠️ Môn học này có lịch trùng với môn đã chọn';
     }
     div.innerHTML = `
-        <div class="subject-code">${subject.code}</div>
-        <div class="subject-lhp" style="font-size: 11px; color: #666; margin-top: 2px;">
-            LHP: ${subject.lhp || subject.id}
-            ${subject.class_number ? `<span style="background: #e3f2fd; padding: 1px 4px; border-radius: 3px; margin-left: 5px;">${subject.class_number}</span>` : ''}
+        <div class="subject-lhp" style="font-size: 13px; color: #2c3e50; font-weight:700; margin-bottom:6px;">
+            ${subject.lhp || subject.id}
         </div>
         <div class="subject-name">${subject.name}</div>
         <div class="subject-info">
@@ -578,8 +576,7 @@ function createClassItem(subject, session) {
     div.className = 'class-item';
     div.dataset.subjectId = subject.id;
     div.innerHTML = `
-        <div class="class-lhp">${subject.lhp || subject.id}${subject.class_number ? ' • ' + subject.class_number : ''}</div>
-        <div class="class-code">${subject.code}</div>
+        <div class="class-lhp">${subject.lhp || subject.id}</div>
         <div class="class-name">${subject.name}</div>
         <div class="class-room">${session.room}</div>
         ${subject.instructor ? `<div class="class-instructor">${subject.instructor}</div>` : ''}
