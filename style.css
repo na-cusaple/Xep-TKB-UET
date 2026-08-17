@@ -261,7 +261,8 @@ header p {
     font-size: 12px;
 }
 .schedule-cell {
-    height: 60px;
+    min-height: 80px;
+    height: auto;
     position: relative;
     background: #fafafa;
     transition: all 0.3s ease;
@@ -279,7 +280,7 @@ header p {
 .class-item {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 5px;
+    padding: 8px;
     border-radius: 5px;
     font-size: 11px;
     text-align: left;
@@ -297,11 +298,14 @@ header p {
     font-size: 10px;
 }
 .class-item .class-name {
-    font-size: 9px;
-    opacity: 0.9;
-    white-space: nowrap;
+    font-size: 12px;
+    opacity: 0.95;
+    white-space: normal;
+    overflow-wrap: anywhere;
     overflow: hidden;
-    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 .class-item .class-room {
     font-size: 8px;

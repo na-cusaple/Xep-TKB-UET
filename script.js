@@ -673,6 +673,8 @@ function performAddSubjects(subjectsToAdd, originalSubject) {
     renderSubjectsList();
     renderSchedule();
     updateScheduleInfo();
+    // Auto-save after changes so schedule persists across refresh
+    try { saveSchedule(); } catch (e) { console.error('Auto-save failed:', e); }
     const addedCount = subjectsToAdd.length;
     const mainMessage = `Đã thêm ${originalSubject.id} vào thời khóa biểu`;
     const detailMessage = addedCount > 1 ? ` (${addedCount} tiết học)` : '';
@@ -687,6 +689,8 @@ function removeSubjectFromSchedule(subjectId) {
     renderSubjectsList();
     renderSchedule();
     updateScheduleInfo();
+    // Auto-save after removal
+    try { saveSchedule(); } catch (e) { console.error('Auto-save failed:', e); }
     const message = removedCount > 1
         ? `Đã xóa ${clickedSubject.id} khỏi thời khóa biểu (${removedCount} tiết học)`
         : `Đã xóa ${clickedSubject.id} khỏi thời khóa biểu`;
@@ -899,6 +903,8 @@ function clearSchedule() {
         renderSubjectsList();
         renderSchedule();
         updateScheduleInfo();
+        // Auto-save after clearing
+        try { saveSchedule(); } catch (e) { console.error('Auto-save failed:', e); }
         showToast('Đã xóa toàn bộ thời khóa biểu', 'success');
     }
 }
