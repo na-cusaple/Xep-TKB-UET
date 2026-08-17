@@ -36,6 +36,7 @@ header p {
     display: flex;
     gap: 20px;
     min-height: 70vh;
+    align-items: stretch;
 }
 .sidebar {
     flex: 0 0 300px;
@@ -44,7 +45,9 @@ header p {
     padding: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    max-height: 80vh;
+    /* allow sidebar to stretch to match schedule height */
+    max-height: none;
+    height: 100%;
     overflow-y: auto;
 }
 .sidebar h2 {
@@ -206,6 +209,8 @@ header p {
     padding: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
 }
 .schedule-container h2 {
     color: #2c3e50;
@@ -229,6 +234,8 @@ header p {
 }
 .schedule-table-container {
     overflow-x: auto;
+    /* allow the table container to expand and define the schedule height */
+    flex: 1 1 auto;
 }
 .schedule-table {
     width: 100%;

@@ -814,14 +814,17 @@ function setupEventListeners() {
         }
     });
     document.getElementById('importPDF').addEventListener('click', openPDFReader);
-    document.getElementById('exportExcel').addEventListener('click', exportScheduleToExcel);
-    document.getElementById('clearSchedule').addEventListener('click', clearSchedule);
-    document.getElementById('saveSchedule').addEventListener('click', saveSchedule);
-    document.getElementById('loadSchedule').addEventListener('click', loadSchedule);
-    const saveTop = document.getElementById('saveScheduleTop');
-    if (saveTop) saveTop.addEventListener('click', saveSchedule);
-    const exportTop = document.getElementById('exportScheduleTop');
-    if (exportTop) exportTop.addEventListener('click', exportSchedule);
+    const importPdfBtn = document.getElementById('importPDF');
+    if (importPdfBtn) importPdfBtn.addEventListener('click', openPDFReader);
+    const exportExcelBtn = document.getElementById('exportExcel');
+    if (exportExcelBtn) exportExcelBtn.addEventListener('click', exportScheduleToExcel);
+    const clearBtn = document.getElementById('clearSchedule');
+    if (clearBtn) clearBtn.addEventListener('click', clearSchedule);
+    const saveBtn = document.getElementById('saveSchedule');
+    if (saveBtn) saveBtn.addEventListener('click', saveSchedule);
+    const loadBtn = document.getElementById('loadSchedule');
+    if (loadBtn) loadBtn.addEventListener('click', loadSchedule);
+    // top buttons were removed from the layout; sidebar provides save/load now
 }
 function exportScheduleToExcel() {
     if (selectedSubjects.length === 0) {
